@@ -1,133 +1,174 @@
-# Campa Beverages Dealership Management System - Deployment Guide
+# Camopa Beverages Dealership Management System - Deployment Guide
 
-This document provides instructions for deploying the Campa Beverages Dealership Management System.
+This document provides instructions for deploying the Camopa Beverages Dealership Management System.
 
 ## System Architecture
 
-The system consists of:
-- React frontend with Material UI
-- FastAPI backend
-- PostgreSQL database
-- Authentication system with JWT
+The Camopa Beverages Dealership Management System consists of three main components:
+
+- **Frontend**: React application with Material UI
+- **Backend**: FastAPI server providing RESTful API endpoints
+- **Database**: PostgreSQL database for storing application data
 
 ## Prerequisites
 
-- Node.js 16+ for the frontend
-- Python 3.8+ for the backend
-- PostgreSQL 12+ for the database
-- npm or yarn package manager
+- Node.js 16+ for frontend
+- Python 3.8+ for backend
+- PostgreSQL 12+ for database
+- Docker and Docker Compose (optional, for containerized deployment)
+- A Linux-based server or cloud VM for production deployment
 
 ## Frontend Deployment
 
 ### Local Development
 
 1. Navigate to the frontend directory:
-```
-cd /path/to/campa_dealership/frontend
-```
+   ```bash
+   cd frontend
+   ```
 
 2. Install dependencies:
-```
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. Start the development server:
-```
-npm start
-```
+   ```bash
+   npm start
+   ```
 
 ### Production Deployment
 
 1. Build the production bundle:
-```
-npm run build
-```
+   ```bash
+   cd frontend
+   npm run build
+   ```
 
-2. The build folder can be deployed to any static hosting service like:
-   - Netlify
-   - Vercel
-   - AWS S3 + CloudFront
-   - GitHub Pages
+2. Serve the static files using a web server like Nginx:
+   ```nginx
+   server {
+       listen 80;
+       server_name yourdomain.com;
+       root /path/to/frontend/build;
+       
+       location / {
+           try_files $uri /index.html;
+       }
+       
+       location /api {
+           proxy_pass http://localhost:8000;
+       }
+   }
+   ```
 
 ## Backend Deployment
 
 ### Local Development
 
 1. Navigate to the backend directory:
-```
-cd /path/to/campa_dealership/backend
-```
+   ```bash
+   cd backend
+   ```
 
 2. Create and activate a virtual environment:
-```
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
 3. Install dependencies:
-```
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. Start the development server:
-```
-uvicorn app.main:app --reload
-```
+   ```bash
+   uvicorn app.main:app --reload
+   ```
 
 ### Production Deployment
 
-1. Set up a production PostgreSQL database
+1. Set up a production-ready server using Gunicorn:
+   ```bash
+   pip install gunicorn
+   gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+   ```
 
-2. Configure environment variables:
-```
-DATABASE_URL=postgresql://user:password@localhost/campa_db
-SECRET_KEY=your_secret_key
-ENVIRONMENT=production
-```
+2. Configure a systemd service for automatic startup:
+   ```ini
+   [Unit]
+   Description=Camopa Backend
+   After=network.target
 
-3. Deploy using one of these options:
-   - Docker container on AWS ECS, Google Cloud Run, or Azure Container Instances
-   - Heroku
-   - DigitalOcean App Platform
-   - AWS Elastic Beanstalk
+   [Service]
+   User=username
+   WorkingDirectory=/path/to/backend
+   ExecStart=/path/to/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+   Restart=on-failure
 
-4. For Docker deployment, use the provided Dockerfile:
-```
-docker build -t campa-backend .
-docker run -p 8000:8000 campa-backend
-```
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
 ## Database Setup
 
-1. Create a PostgreSQL database:
-```
-createdb campa_db
-```
+1. Install PostgreSQL:
+   ```bash
+   sudo apt update
+   sudo apt install postgresql postgresql-contrib
+   ```
 
-2. Run migrations:
-```
-cd /path/to/campa_dealership/backend
-alembic upgrade head
-```
+2. Create a database and user:
+   ```sql
+   CREATE DATABASE camopa;
+   CREATE USER camopauser WITH PASSWORD 'secure-password';
+   GRANT ALL PRIVILEGES ON DATABASE camopa TO camopauser;
+   ```
+
+3. Configure database connection in backend `.env` file:
+   ```
+   DATABASE_URL=postgresql://camopauser:secure-password@localhost/camopa
+   ```
 
 ## Security Considerations
 
-- Store sensitive information in environment variables
-- Use HTTPS for all communications
-- Implement rate limiting for API endpoints
-- Regularly update dependencies
-- Set up proper CORS configuration
+1. Store sensitive configuration in environment variables
+2. Implement HTTPS using Let's Encrypt certificates
+3. Set up proper CORS configuration in the backend
+4. Implement rate limiting to prevent abuse
+5. Use secure password hashing with bcrypt
+6. Configure proper JWT token expiration times
 
 ## Monitoring and Maintenance
 
-- Set up logging with a service like Sentry
-- Configure performance monitoring
-- Create regular database backups
-- Establish a CI/CD pipeline for updates
+1. Set up application logging with rotation:
+   ```bash
+   sudo apt install logrotate
+   ```
+
+2. Configure automated backups for the database:
+   ```bash
+   pg_dump camopa > backup_$(date +%Y%m%d).sql
+   ```
+
+3. Set up health check endpoints in the API
+4. Implement monitoring using Prometheus and Grafana (optional)
 
 ## Troubleshooting
 
-- Check application logs for errors
-- Verify database connection
-- Ensure all environment variables are correctly set
-- Confirm API endpoints are accessible
+### Common Issues
+
+1. **Database Connection Errors**:
+   - Check if PostgreSQL service is running
+   - Verify database credentials are correct
+   - Check network connectivity and firewall rules
+
+2. **Frontend API Connection Issues**:
+   - Ensure API endpoint URLs are correctly configured
+   - Check CORS settings in backend
+
+3. **Performance Issues**:
+   - Monitor server resources (CPU, memory)
+   - Check database query performance
+   - Consider implementing caching strategies

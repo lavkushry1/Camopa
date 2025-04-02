@@ -1,6 +1,6 @@
-# Campa Beverages Dealership Management System
+# Camopa Beverages Dealership Management System
 
-A comprehensive dealership management system for Campa Beverages, allowing users to apply for dealerships, track applications, make payments, and download approval letters. The system includes an admin panel for managing applications, payments, and support requests.
+A comprehensive dealership management system for Camopa Beverages, allowing users to apply for dealerships, track applications, make payments, and download approval letters. The system includes an admin panel for managing applications, payments, and support requests.
 
 ## Features
 
@@ -28,7 +28,7 @@ A comprehensive dealership management system for Campa Beverages, allowing users
 ## Project Structure
 
 ```
-campa_dealership/
+camopa_dealership/
 ├── frontend/             # React frontend application
 │   ├── public/           # Static files
 │   └── src/              # Source code
@@ -69,9 +69,23 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+### Database Setup
+```bash
+# Create database
+sudo -u postgres psql
+CREATE DATABASE camopa;
+CREATE USER camopauser WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE camopa TO camopauser;
+```
+
 ## Deployment
 
 See the [Deployment Guide](./docs/deployment_guide.md) for detailed instructions on deploying the system.
+
+## Development
+
+### Git Workflow
+See the [Git Setup Guide](./docs/git_setup_guide.md) for information on our Git workflow and best practices.
 
 ## License
 

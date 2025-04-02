@@ -3,18 +3,34 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 import enum
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Get database URL from environment variables
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./camopa.db")
 
 # Create SQLAlchemy engine
-SQLALCHEMY_DATABASE_URL = "sqlite:///./campa_dealership.db"
-# For PostgreSQL, uncomment the following line:
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost/campa_dealership"
-
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    DATABASE_URL,
+    echo=True,  # Set to False in production
+    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
 )
+
+# Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Create base class for models
 Base = declarative_base()
+
+# Dependency to get DB session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # Define application status enum
 class ApplicationStatus(str, enum.Enum):

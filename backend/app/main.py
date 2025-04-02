@@ -1,44 +1,48 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
-from typing import List
+import os
+from dotenv import load_dotenv
 
-# Import models and schemas
-from app import database
-from app.routers import applications, payments, approval_letters, support
+# Load environment variables
+load_dotenv()
 
 # Create FastAPI app
 app = FastAPI(
-    title="Campa Beverages Dealership Management System",
-    description="API for managing dealership applications, approvals, and payments",
-    version="0.1.0"
+    title="Camopa Beverages Dealership API",
+    description="API for the Camopa Beverages Dealership Management System",
+    version="1.0.0",
 )
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, this should be restricted to frontend URL
+    allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:3000").split(","),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(applications.router)
-app.include_router(payments.router)
-app.include_router(approval_letters.router)
-app.include_router(support.router)
-
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to Campa Beverages Dealership Management System API"}
-
 # Health check endpoint
-@app.get("/health")
+@app.get("/health", tags=["Health"])
 def health_check():
-    return {"status": "healthy"}
+    return {"status": "healthy", "message": "API is running"}
 
-# Create database tables on startup
-@app.on_event("startup")
-def startup_event():
-    database.create_tables()
+# Root endpoint
+@app.get("/", tags=["Root"])
+def root():
+    return {
+        "message": "Welcome to Camopa Beverages Dealership API",
+        "documentation": "/docs",
+    }
+
+# Import and include routers
+from app.routers import applications
+app.include_router(applications.router)
+
+# Set up database connection
+from app.database import engine, Base
+Base.metadata.create_all(bind=engine)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

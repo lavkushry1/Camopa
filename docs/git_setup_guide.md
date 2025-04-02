@@ -1,6 +1,6 @@
-# Git Setup Guide for Campa Beverages Dealership Management System
+# Git Setup Guide for Camopa Beverages Dealership Management System
 
-This guide will help you push the Campa Beverages Dealership Management System to your Git repository.
+This guide will help you push the Camopa Beverages Dealership Management System to your Git repository.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ This guide will help you push the Campa Beverages Dealership Management System t
 Navigate to the project directory and initialize a Git repository:
 
 ```bash
-cd /path/to/campa_dealership
+cd /path/to/camopa
 git init
 ```
 
@@ -32,24 +32,24 @@ This command adds all files except those specified in the `.gitignore` file.
 Commit the files to the local repository:
 
 ```bash
-git commit -m "Initial commit of Campa Beverages Dealership Management System"
+git commit -m "Initial commit of Camopa Beverages Dealership Management System"
 ```
 
 ## Step 4: Create Remote Repository
 
 1. Go to your GitHub/GitLab/Bitbucket account
-2. Create a new repository named "campa-dealership" or any name you prefer
+2. Create a new repository named "camopa" or any name you prefer
 3. Do not initialize the repository with a README, .gitignore, or license file
 
 ## Step 5: Link Local Repository to Remote Repository
 
-Link your local repository to the remote repository:
+Connect your local repository to the remote repository:
 
 ```bash
-git remote add origin https://github.com/yourusername/campa-dealership.git
+git remote add origin https://github.com/yourusername/camopa.git
 ```
 
-Replace `yourusername` with your actual username and adjust the URL if you're using GitLab or Bitbucket.
+Replace the URL with your actual repository URL.
 
 ## Step 6: Push to Remote Repository
 
@@ -59,7 +59,7 @@ Push your code to the remote repository:
 git push -u origin main
 ```
 
-If you're using an older version of Git that uses `master` as the default branch name:
+Or if you're using `master` as your default branch:
 
 ```bash
 git push -u origin master
@@ -67,41 +67,47 @@ git push -u origin master
 
 ## Step 7: Verify the Push
 
-Go to your GitHub/GitLab/Bitbucket account and verify that all files have been pushed correctly.
+Visit your repository on GitHub/GitLab/Bitbucket to verify that all files have been pushed correctly.
 
 ## Additional Git Commands
 
-### Check Repository Status
+### Checking Status
 
 ```bash
 git status
 ```
 
-### View Commit History
+### Creating a New Branch
+
+```bash
+git checkout -b feature/new-feature
+```
+
+### Switching Branches
+
+```bash
+git checkout branch-name
+```
+
+### Updating Your Local Repository
+
+```bash
+git pull
+```
+
+### Viewing Commit History
 
 ```bash
 git log
 ```
 
-### Create and Switch to a New Branch
-
-```bash
-git checkout -b feature-branch
-```
-
-### Pull Latest Changes
-
-```bash
-git pull origin main
-```
-
 ## Best Practices
 
-1. Make frequent, small commits with clear messages
-2. Use branches for new features or bug fixes
-3. Pull changes before starting new work
-4. Review code before pushing to the main branch
-5. Keep sensitive information out of the repository (use environment variables)
+1. **Commit Often**: Make small, focused commits that address a single issue or feature
+2. **Write Clear Commit Messages**: Use descriptive commit messages that explain what changes were made
+3. **Use Branches**: Create separate branches for different features or fixes
+4. **Pull Before Push**: Always pull the latest changes before pushing to avoid conflicts
+5. **Review Before Committing**: Check your changes before committing to avoid pushing unwanted files
 
 ## Troubleshooting
 
