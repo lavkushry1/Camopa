@@ -96,10 +96,7 @@ const ApplicationTracker = ({ isEmbedded = false }) => {
             disabled={loading}
             sx={{ 
               minWidth: 120,
-              backgroundColor: '#e53935',
-              '&:hover': {
-                backgroundColor: '#d32f2f',
-              }
+              backgroundColor: theme.palette.primary.main,
             }}
           >
             {loading ? <CircularProgress size={24} /> : 'Track'}

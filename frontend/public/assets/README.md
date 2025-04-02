@@ -1,10 +1,10 @@
-# Assets Directory for Camopa Beverages Website
+# Assets Directory for Campa Beverages Website
 
 This directory needs the following media files for the website to display properly:
 
 ## Required Files
 
-1. **campa-logo.png** - The official Campa Beverages logo (transparent PNG)
+1. **campa-logo-white.png** - The official Campa Beverages logo in white
    - Recommendation: White logo with transparency for best visibility on dark backgrounds
    - Optimal size: 300-500px width
 
@@ -13,17 +13,18 @@ This directory needs the following media files for the website to display proper
    - Optimal format: MP4, H.264 codec, 1080p resolution
    - Keep file size under 5MB for optimal loading
 
-3. **campa-bg.jpg** - Fallback background image for browsers that don't support video
-   - Recommendation: Dark-themed image of products or branding elements
+3. **campa-bg.jpg** - Fallback background image of Campa beverages products
+   - Recommendation: Dark-themed image featuring Campa bottles/cans
    - Optimal size: 1920×1080px
 
-## Temporary Placeholders
+## Brand Colors
 
-Until you obtain the official assets from Campa Beverages:
+Based on the official Campa Beverages website (https://campabeverages.com/):
 
-1. You can use a simple text logo in the header
-2. A solid color or gradient background will be used as fallback
-3. Placeholder images can be found in the `placeholder` folder
+- Primary Purple: #652C90
+- Pink Accent: #E3268E
+- Dark Purple: #4A1E8A
+- Cola Red: #E30614 (for specific product references)
 
 ## How to Obtain Official Assets
 

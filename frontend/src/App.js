@@ -12,10 +12,10 @@ import HomePage from './components/HomePage';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#e53935', // Red from Campa Beverages
+      main: '#652C90', // Purple from Campa Beverages
     },
     secondary: {
-      main: '#1e88e5', // Blue from Campa Beverages products
+      main: '#E3268E', // Pink accent from Campa site
     },
   },
   typography: {
@@ -24,7 +24,7 @@ const theme = createTheme({
       fontWeight: 700,
     },
     h2: {
-      fontWeight: 600,
+      fontWeight: 700,
     },
     button: {
       fontWeight: 600,
