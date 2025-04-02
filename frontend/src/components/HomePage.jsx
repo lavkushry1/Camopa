@@ -20,6 +20,7 @@ import ApplicationTracker from './ApplicationTracker';
 const HomePage = () => {
   const [open, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState(0);
+  const [videoError, setVideoError] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -35,6 +36,10 @@ const HomePage = () => {
     setTabValue(newValue);
   };
 
+  const handleVideoError = () => {
+    setVideoError(true);
+  };
+
   return (
     <Box 
       sx={{ 
@@ -44,27 +49,34 @@ const HomePage = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: '#000',
+        background: videoError ? 
+          'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/assets/campa-bg.jpg") no-repeat center center' : 
+          'none',
+        backgroundSize: 'cover',
       }}
     >
-      {/* Video Background */}
-      <Box
-        component="video"
-        autoPlay
-        muted
-        loop
-        playsInline
-        disablePictureInPicture
-        sx={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          opacity: 0.7,
-          zIndex: 0,
-        }}
-      >
-        <source src="/assets/campa-video-bg.mp4" type="video/mp4" />
-      </Box>
+      {/* Video Background - Will only show if available */}
+      {!videoError && (
+        <Box
+          component="video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          onError={handleVideoError}
+          disablePictureInPicture
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.7,
+            zIndex: 0,
+          }}
+        >
+          <source src="/assets/campa-video-bg.mp4" type="video/mp4" />
+        </Box>
+      )}
 
       {/* Overlay gradient */}
       <Box
@@ -94,14 +106,18 @@ const HomePage = () => {
       >
         {/* Header/Logo */}
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-          <img 
-            src="/assets/campa-logo.png" 
-            alt="Campa Beverages Logo" 
-            style={{ 
-              height: isMobile ? '50px' : '70px',
-              maxWidth: '100%'
+          <Typography 
+            variant={isMobile ? "h5" : "h4"}
+            component="div"
+            sx={{ 
+              color: 'white', 
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              letterSpacing: 1
             }}
-          />
+          >
+            Campa Beverages
+          </Typography>
         </Box>
 
         {/* Center Content */}

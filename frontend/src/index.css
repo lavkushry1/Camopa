@@ -4,6 +4,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
 }
 
 code {
@@ -11,11 +12,20 @@ code {
     monospace;
 }
 
+/* Fallbacks for missing media assets */
 .video-fallback {
-  background: url('/assets/campa-bg.jpg') no-repeat center center;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+              #000 repeat center center;
   background-size: cover;
 }
 
 .full-height {
   min-height: 100vh;
+}
+
+/* Fix for mobile responsiveness */
+@media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden;
+  }
 }

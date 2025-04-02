@@ -28,6 +28,7 @@ const ApplicationTracker = ({ isEmbedded = false }) => {
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const isMobile = window.innerWidth <= 768;
 
   const handleTrackingIdChange = (e) => {
     setTrackingId(e.target.value);
@@ -78,7 +79,7 @@ const ApplicationTracker = ({ isEmbedded = false }) => {
           Enter your application tracking ID to check the status of your dealership application.
         </Typography>
         
-        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexDirection: isMobile ? 'column' : 'row' }}>
           <TextField
             fullWidth
             label="Tracking ID"
@@ -93,7 +94,13 @@ const ApplicationTracker = ({ isEmbedded = false }) => {
             variant="contained" 
             onClick={handleTrack}
             disabled={loading}
-            sx={{ minWidth: 120 }}
+            sx={{ 
+              minWidth: 120,
+              backgroundColor: '#e53935',
+              '&:hover': {
+                backgroundColor: '#d32f2f',
+              }
+            }}
           >
             {loading ? <CircularProgress size={24} /> : 'Track'}
           </Button>
