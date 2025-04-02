@@ -23,7 +23,7 @@ const applicationSteps = [
   'Approved'
 ];
 
-const ApplicationTracker = () => {
+const ApplicationTracker = ({ isEmbedded = false }) => {
   const [trackingId, setTrackingId] = useState('');
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -66,12 +66,14 @@ const ApplicationTracker = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom align="center">
-        Track Your Application
-      </Typography>
+    <Box sx={{ maxWidth: isEmbedded ? '100%' : 800, mx: 'auto', p: isEmbedded ? 0 : 3 }}>
+      {!isEmbedded && (
+        <Typography variant="h4" gutterBottom align="center">
+          Track Your Application
+        </Typography>
+      )}
       
-      <Paper sx={{ p: 3, mb: 3 }}>
+      <Paper sx={{ p: 3, mb: 3, boxShadow: isEmbedded ? 0 : 1 }}>
         <Typography variant="body1" paragraph>
           Enter your application tracking ID to check the status of your dealership application.
         </Typography>
@@ -99,7 +101,7 @@ const ApplicationTracker = () => {
       </Paper>
 
       {application && (
-        <Paper sx={{ p: 3 }}>
+        <Paper sx={{ p: 3, boxShadow: isEmbedded ? 0 : 1 }}>
           <Typography variant="h5" gutterBottom>
             Application Details
           </Typography>
