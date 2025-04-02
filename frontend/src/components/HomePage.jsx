@@ -4,7 +4,6 @@ import {
   Container,
   Typography, 
   Button, 
-  Grid,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -17,8 +16,6 @@ import {
 import { Close as CloseIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import ApplicationTracker from './ApplicationTracker';
-import campaBgImage from '../assets/campa-bg.jpg';
-import campaLogo from '../assets/campa-logo.png';
 
 const HomePage = () => {
   const [open, setOpen] = useState(false);
@@ -38,98 +35,129 @@ const HomePage = () => {
     setTabValue(newValue);
   };
 
-  useEffect(() => {
-    // Add preload link for background image
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.href = campaBgImage;
-    link.as = 'image';
-    document.head.appendChild(link);
-    
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
-
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
-      display: 'flex',
-      flexDirection: 'column',
-      background: `url(${campaBgImage}) no-repeat center center`,
-      backgroundSize: 'cover',
-      position: 'relative',
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        zIndex: 1
-      }
-    }}>
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Header */}
-        <Box sx={{ py: 2, display: 'flex', justifyContent: 'center', mb: 2 }}>
+    <Box 
+      sx={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        overflow: 'hidden',
+        bgcolor: '#000',
+      }}
+    >
+      {/* Video Background */}
+      <Box
+        component="video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        disablePictureInPicture
+        sx={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.7,
+          zIndex: 0,
+        }}
+      >
+        <source src="/assets/campa-video-bg.mp4" type="video/mp4" />
+      </Box>
+
+      {/* Overlay gradient */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%)',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Content */}
+      <Container 
+        maxWidth="lg" 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 2, 
+          display: 'flex', 
+          flexDirection: 'column',
+          height: '100vh',
+          justifyContent: 'space-between',
+          py: 3
+        }}
+      >
+        {/* Header/Logo */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
           <img 
-            src={campaLogo} 
+            src="/assets/campa-logo.png" 
             alt="Campa Beverages Logo" 
             style={{ 
-              height: isMobile ? '60px' : '80px',
+              height: isMobile ? '50px' : '70px',
               maxWidth: '100%'
             }}
           />
         </Box>
 
-        {/* Hero Section */}
-        <Box sx={{ 
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1,
-          textAlign: 'center',
-          mt: isMobile ? 2 : 5
-        }}>
+        {/* Center Content */}
+        <Box 
+          sx={{ 
+            flexGrow: 1, 
+            display: 'flex', 
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center'
+          }}
+        >
           <Typography 
-            variant={isMobile ? "h3" : "h2"} 
+            variant={isMobile ? "h3" : "h1"} 
             component="h1" 
             fontWeight="bold" 
             color="white"
-            sx={{ mb: 3, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}
+            sx={{ 
+              mb: 3, 
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              textTransform: 'uppercase'
+            }}
           >
-            Become a Campa Beverages Dealer
+            The Great Indian Taste
           </Typography>
 
           <Typography 
-            variant="h5" 
+            variant={isMobile ? "h5" : "h4"} 
             component="h2" 
             color="white"
             sx={{ 
-              mb: 5, 
+              mb: 6, 
               maxWidth: '800px', 
               mx: 'auto',
               textShadow: '1px 1px 3px rgba(0,0,0,0.7)'
             }}
           >
-            Join the Campa Beverages family and be part of India's iconic beverage brand
+            Join Campa Beverages as an official dealer
           </Typography>
 
           <Button 
             variant="contained" 
-            color="primary" 
-            size="large"
             onClick={handleOpen}
             sx={{ 
-              py: 1.5, 
-              px: 4, 
-              fontSize: '1.2rem',
-              borderRadius: '30px',
+              py: 2, 
+              px: 6, 
+              fontSize: isMobile ? '1rem' : '1.2rem',
+              borderRadius: '50px',
               boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
-              background: 'linear-gradient(45deg, #652C90 30%, #E3268E 90%)',
+              backgroundColor: '#e53935',
+              color: 'white',
+              textTransform: 'none',
+              fontWeight: 'bold',
               '&:hover': {
+                backgroundColor: '#d32f2f',
                 boxShadow: '0 6px 15px rgba(0,0,0,0.4)',
               }
             }}
@@ -139,8 +167,8 @@ const HomePage = () => {
         </Box>
 
         {/* Footer */}
-        <Box sx={{ py: 3, textAlign: 'center' }}>
-          <Typography variant="body2" color="white">
+        <Box sx={{ pt: 3, textAlign: 'center' }}>
+          <Typography variant="body2" color="white" sx={{ opacity: 0.8 }}>
             &copy; {new Date().getFullYear()} Campa Beverages. All rights reserved.
           </Typography>
         </Box>
@@ -157,7 +185,7 @@ const HomePage = () => {
         }}
       >
         <DialogTitle sx={{ 
-          backgroundColor: '#652C90', 
+          backgroundColor: '#e53935', 
           color: 'white',
           display: 'flex',
           justifyContent: 'space-between',
@@ -202,10 +230,15 @@ const HomePage = () => {
                   component={Link} 
                   to="/apply" 
                   variant="contained" 
-                  color="primary"
+                  sx={{ 
+                    mt: 2, 
+                    backgroundColor: '#e53935',
+                    '&:hover': {
+                      backgroundColor: '#d32f2f',
+                    }
+                  }}
                   size="large"
                   onClick={handleClose}
-                  sx={{ mt: 2 }}
                 >
                   Start Application
                 </Button>
